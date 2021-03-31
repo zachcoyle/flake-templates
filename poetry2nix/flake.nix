@@ -19,7 +19,17 @@
         };
       in
       {
-        packages = { };
+        # packages.my-project = poetry2nix.mkPoetryApplication {
+        #   projectDir = ./.;
+        # };
+
+        # defaultPackage = packages.my-project;
+
+        # apps.my-project = utils.lib.mkApp {
+        #   drv = packages.my-project;
+        # };
+
+        # defaultApp = apps.my-project;
 
         devShell = pkgs.mkShell {
           buildInputs = with pkgs; [
