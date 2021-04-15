@@ -22,7 +22,7 @@
           inherit (fenix.packages.${system}.minimal) cargo rustc;
         };
       in
-      {
+      rec {
         # packages.my-project = naersk-lib.buildPackage {
         #   pname = "my-project";
         #   root = ./.;
@@ -30,7 +30,7 @@
 
         # defaultPackage = packages.my-project;
 
-        # apps.my-project = utils.lib.mkApp {
+        # apps.my-project = flake-utils.lib.mkApp {
         #   drv = packages.my-project;
         # };
 
