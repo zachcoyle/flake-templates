@@ -19,6 +19,10 @@
         path = ./mobile_dev;
         description = "mobile development flake template";
       };
+      flake-utils = {
+        path = ./flake-utils;
+        description = "flake-utils template";
+      };
     };
   };
 }

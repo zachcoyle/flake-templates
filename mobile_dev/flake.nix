@@ -4,13 +4,15 @@
   inputs = {
     nixpkgs.url = github:nixos/nixpkgs/nixpkgs-unstable;
     flake-utils.url = github:numtide/flake-utils;
+    devshell.url = github:numtide/devshell;
   };
 
 
-  outputs = { self, nixpkgs, flake-utils }: flake-utils.lib.eachDefaultSystem (system:
+  outputs = { self, nixpkgs, flake-utils, devshell }: flake-utils.lib.eachDefaultSystem (system:
     let
       pkgs = import nixpkgs {
         inherit system;
+        overlays = [ devshell.overlay ];
         config.android_sdk.accept_license = true;
       };
 
@@ -19,10 +21,10 @@
 
       android = pkgs.androidenv.composeAndroidPackages {
         toolsVersion = "26.1.1";
-        platformToolsVersion = "30.0.5";
+        platformToolsVersion = "31.0.2";
         buildToolsVersions = [ mainBuildToolsVersion ];
         includeEmulator = true;
-        emulatorVersion = "30.3.4";
+        emulatorVersion = "30.4.5";
         inherit platformVersions;
         includeSources = false;
         includeSystemImages = false;
@@ -44,8 +46,8 @@
       # TODO: add examples of building apps entirely through nix
       #packages = { };
 
-      devShell = pkgs.mkShell.override { stdenv = pkgs.stdenvNoCC; } {
-        buildInputs = with pkgs; [
+      devShell = pkgs.devshell.mkShell {
+        packages = with pkgs; [
           android.androidsdk
           android.platform-tools
           cocoapods
@@ -55,12 +57,22 @@
           gradle
           jdk
           just
-          nodejs-15_x
+          nodejs-16_x
           yarn
         ];
 
-        ANDROID_HOME = "${android.androidsdk}/libexec/android-sdk";
-        GRADLE_OPTS = "-Dorg.gradle.project.android.aapt2FromMavenOverride=${android.androidsdk}/libexec/android-sdk/build-tools/${mainBuildToolsVersion}/aapt2";
+        env = [
+          {
+            name = "ANDROID_HOME";
+            value = "${android.androidsdk}/libexec/android-sdk";
+          }
+          {
+            name = "GRADLE_OPTS";
+            value = "-Dorg.gradle.project.android.aapt2FromMavenOverride=${android.androidsdk}/libexec/android-sdk/build-tools/${mainBuildToolsVersion}/aapt2";
+          }
+
+        ];
+
       };
     });
 }
