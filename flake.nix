@@ -23,6 +23,10 @@
         path = ./flake-utils;
         description = "flake-utils template";
       };
+      latex = {
+        path = ./latex;
+        description = "latex template";
+      };
     };
   };
 }
