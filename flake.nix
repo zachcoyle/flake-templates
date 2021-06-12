@@ -27,6 +27,10 @@
         path = ./latex;
         description = "latex template";
       };
+      mach-nix = {
+        path = ./mach-nix;
+        description = "mach-nix template";
+      };
     };
   };
 }
