@@ -4,6 +4,7 @@
   inputs = {
     nixpkgs.url = github:nixos/nixpkgs/nixpkgs-unstable;
     flake-utils.url = github:numtide/flake-utils;
+    devshell.url = github:numtide/devshell;
     naersk.url = "github:nmattia/naersk";
     fenix = {
       url = "github:nix-community/fenix";
@@ -11,12 +12,15 @@
     };
   };
 
-  outputs = { self, nixpkgs, flake-utils, fenix, naersk }:
+  outputs = { self, nixpkgs, flake-utils, fenix, naersk, devshell }:
     flake-utils.lib.eachDefaultSystem (system:
       let
         pkgs = import nixpkgs {
           inherit system;
-          overlays = [ fenix.overlay ];
+          overlays = [
+            devshell.overlay
+            fenix.overlay
+          ];
         };
         naersk-lib = naersk.lib.${system}.override {
           inherit (fenix.packages.${system}.minimal) cargo rustc;
@@ -36,7 +40,7 @@
 
         # defaultApp = apps.my-project;
 
-        devShell = pkgs.mkShell {
+        devShell = pkgs.devshell.mkShell {
           buildInputs = with pkgs; [
             fenix.packages.${system}.minimal.cargo
             fenix.packages.${system}.minimal.rustc

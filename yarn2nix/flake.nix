@@ -4,12 +4,16 @@
   inputs = {
     nixpkgs.url = github:nixos/nixpkgs/nixpkgs-unstable;
     flake-utils.url = github:numtide/flake-utils;
+    devshell.url = github:numtide/devshell;
   };
 
-  outputs = { self, nixpkgs, flake-utils }:
+  outputs = { self, nixpkgs, flake-utils, devshell }:
     flake-utils.lib.eachDefaultSystem (system:
       let
-        pkgs = import nixpkgs { inherit system; };
+        pkgs = import nixpkgs {
+          inherit system;
+          overlays = [ devshell.overlay ];
+        };
       in
       {
         # packages.my-project = (pkgs.yarn2nix-moretea.override (_: {
@@ -31,7 +35,7 @@
 
         # defaultApp = apps.my-project;
 
-        devShell = mkShell {
+        devShell = pkgs.devshell.mkShell {
           buildInputs = with pkgs; [
             yarn
             nodejs-15_x

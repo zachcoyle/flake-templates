@@ -21,7 +21,7 @@
       defaultPackage = packages.hello;
 
       devShell = pkgs.devshell.mkShell {
-        packages = [ ];
+        packages = with pkgs; [ ];
       };
 
     });

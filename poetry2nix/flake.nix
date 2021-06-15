@@ -4,18 +4,22 @@
   inputs = {
     nixpkgs.url = github:nixos/nixpkgs/nixpkgs-unstable;
     flake-utils.url = github:numtide/flake-utils;
+    devshell.url = github:numtide/devshell;
     poetry2nix = {
       url = github:nix-community/poetry2nix;
       inputs.nixpkgs.follows = "nixpkgs";
     };
   };
 
-  outputs = { self, nixpkgs, flake-utils, poetry2nix }:
+  outputs = { self, nixpkgs, flake-utils, poetry2nix, devshell }:
     flake-utils.lib.eachDefaultSystem (system:
       let
         pkgs = import nixpkgs {
           inherit system;
-          overlays = [ poetry2nix.overlay ];
+          overlays = [
+            devshell.overlay
+            poetry2nix.overlay
+          ];
         };
       in
       {
@@ -31,7 +35,7 @@
 
         # defaultApp = apps.my-project;
 
-        devShell = pkgs.mkShell {
+        devShell = pkgs.devshell.mkShell {
           buildInputs = with pkgs; [
             poetry
             (pkgs.poetry2nix.mkPoetryEnv { projectDir = ./.; })
