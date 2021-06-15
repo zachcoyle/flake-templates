@@ -13,12 +13,15 @@
         inherit system;
         overlays = [ devshell.overlay ];
       };
+
+      # my-package = pkgs.haskellPackages.callPackage ./default.nix { };
+
     in
     rec {
 
-      packages.hello = pkgs.hello;
+      # packages.my-package = pkgs.my-package;
 
-      defaultPackage = packages.hello;
+      # defaultPackage = packages.my-package;
 
       devShell = pkgs.devshell.mkShell {
         packages = with pkgs; [
