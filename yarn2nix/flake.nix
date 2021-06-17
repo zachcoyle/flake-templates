@@ -18,7 +18,7 @@
       {
         # packages.my-project = (pkgs.yarn2nix-moretea.override (_: {
         #   yarn = pkgs.yarn;
-        #   nodejs = nodejs-15_x;
+        #   nodejs = nodejs-16_x;
         # })).mkYarnPackage {
         #   name = "my-project";
         #   src = ./.;
@@ -38,7 +38,7 @@
         devShell = pkgs.devshell.mkShell {
           buildInputs = with pkgs; [
             yarn
-            nodejs-15_x
+            nodejs-16_x
           ];
         };
       });
