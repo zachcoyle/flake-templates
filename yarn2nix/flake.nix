@@ -15,10 +15,10 @@
           overlays = [ devshell.overlay ];
         };
       in
-      {
+      rec {
         # packages.my-project = (pkgs.yarn2nix-moretea.override (_: {
         #   yarn = pkgs.yarn;
-        #   nodejs = nodejs-16_x;
+        #   nodejs = pkgs.nodejs-16_x;
         # })).mkYarnPackage {
         #   name = "my-project";
         #   src = ./.;
@@ -29,14 +29,14 @@
 
         # defaultPackage = packages.my-project;
 
-        # apps.my-project = utils.lib.mkApp {
+        # apps.my-project = flake-utils.lib.mkApp {
         #   drv = packages.my-project;
         # };
 
         # defaultApp = apps.my-project;
 
         devShell = pkgs.devshell.mkShell {
-          buildInputs = with pkgs; [
+          packages = with pkgs; [
             yarn
             nodejs-16_x
           ];
