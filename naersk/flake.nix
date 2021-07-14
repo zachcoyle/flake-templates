@@ -41,7 +41,7 @@
         # defaultApp = apps.my-project;
 
         devShell = pkgs.devshell.mkShell {
-          buildInputs = with pkgs; [
+          packages = with pkgs; [
             fenix.packages.${system}.minimal.cargo
             fenix.packages.${system}.minimal.rustc
           ];
