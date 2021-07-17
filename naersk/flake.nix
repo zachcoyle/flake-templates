@@ -5,7 +5,7 @@
     nixpkgs.url = github:nixos/nixpkgs/nixpkgs-unstable;
     flake-utils.url = github:numtide/flake-utils;
     devshell.url = github:numtide/devshell;
-    naersk.url = "github:nmattia/naersk";
+    naersk.url = "github:nix-community/naersk";
     fenix = {
       url = "github:nix-community/fenix";
       inputs.nixpkgs.follows = "nixpkgs";
